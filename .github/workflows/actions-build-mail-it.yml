@@ -9,7 +9,7 @@ on:
 
 jobs:
   ci:
-    name: Continuous Integration
+    name: Build and Archive
     runs-on: ubuntu-latest
     strategy:
       matrix:
