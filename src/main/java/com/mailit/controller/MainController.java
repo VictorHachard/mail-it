@@ -1,4 +1,4 @@
-package com.mailthis.controller;
+package com.mailit.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

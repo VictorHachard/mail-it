@@ -1,4 +1,4 @@
-package com.mailthis;
+package com.mailit;
 
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
-public class MailthisApplication {
+public class MailItApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(MailthisApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(MailItApplication.class);
 
     /**
      * This variable is an instance of the RunEnum enum that represents the current mode of the program.
@@ -60,7 +60,7 @@ public class MailthisApplication {
         }
 
         log.info("Starting in " + runEnum.name() + " mode");
-        SpringApplication.run(MailthisApplication.class, args);
+        SpringApplication.run(MailItApplication.class, args);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.mailthis.validator;
+package com.mailit.validator;
 
 import lombok.AccessLevel;
 import lombok.Getter;

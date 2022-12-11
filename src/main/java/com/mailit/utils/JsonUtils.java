@@ -1,4 +1,4 @@
-package com.mailthis.utils;
+package com.mailit.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

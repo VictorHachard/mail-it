@@ -1,3 +1,5 @@
+[![actions-build-mail-it](https://github.com/VictorHachard/mail-it/actions/workflows/actions-build-mail-it.yml/badge.svg)](https://github.com/VictorHachard/mail-it/actions/workflows/actions-build-mail-it.yml)
+
 # mail-it
 
 mail-it is a Spring API that allows web applications to easily send email to your mailbox using Google's email service.

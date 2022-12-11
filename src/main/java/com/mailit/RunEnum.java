@@ -1,4 +1,4 @@
-package com.mailthis;
+package com.mailit;
 
 /**
  * An enumeration representing the different possible run modes for the application.

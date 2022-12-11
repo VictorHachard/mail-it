@@ -1,7 +1,7 @@
-package com.mailthis.controller;
+package com.mailit.controller;
 
-import com.mailthis.MailthisApplication;
-import com.mailthis.validator.EmailValidator;
+import com.mailit.MailItApplication;
+import com.mailit.validator.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,14 +100,14 @@ public class HtmlEmailController {
 
         Map<String, String> emailMap = new HashMap<>();
         for (String email: emailTo.split(",")) {
-            emailMap.put(email, MailthisApplication.environment.ALIAS.getOrDefault(email, email));
+            emailMap.put(email, MailItApplication.environment.ALIAS.getOrDefault(email, email));
         }
 
         // Check Emails
         checkEmail(emailMap, validator);
 
         // Values
-        String fromPersonal = validator.getFromName() != null ? validator.getFromName() : "Mailthis from Victor";
+        String fromPersonal = validator.getFromName() != null ? validator.getFromName() : "mail-it";
         String subject = validator.getSubject() != null ? validator.getSubject() : "No Subject";
         String htmlMessage = validator.getMessage();
         if (validator.getFromName() != null) {
@@ -144,8 +144,8 @@ public class HtmlEmailController {
         for (Map.Entry<String, String> to: emailMap.entrySet()) {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-            String allMessage = "<div class='mailthis_msg'>" + htmlMessage + footer + "</div>";
-            helper.setText("<style>" + MailthisApplication.environment.STYLE_CSS + "</style>" + allMessage, true);
+            String allMessage = "<div class='mailit_msg'>" + htmlMessage + footer + "</div>";
+            helper.setText("<style>" + MailItApplication.environment.STYLE_CSS + "</style>" + allMessage, true);
 
             if (!fileMap.isEmpty()) {
                 for (Map.Entry<String, ByteArrayDataSource> file: fileMap.entrySet()) {

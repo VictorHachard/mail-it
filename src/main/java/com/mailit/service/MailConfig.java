@@ -1,6 +1,6 @@
-package com.mailthis.service;
+package com.mailit.service;
 
-import com.mailthis.MailthisApplication;
+import com.mailit.MailItApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,8 +22,8 @@ public class MailConfig {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername(MailthisApplication.environment.EMAIL_USERNAME);
-        mailSender.setPassword(MailthisApplication.environment.EMAIL_PASSWORD);
+        mailSender.setUsername(MailItApplication.environment.EMAIL_USERNAME);
+        mailSender.setPassword(MailItApplication.environment.EMAIL_PASSWORD);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

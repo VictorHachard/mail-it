@@ -1,11 +1,11 @@
-package com.mailthis;
+package com.mailit;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import com.mailthis.utils.JsonUtils;
+import com.mailit.utils.JsonUtils;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

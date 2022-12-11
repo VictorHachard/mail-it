@@ -1,4 +1,4 @@
-package com.mailthis;
+package com.mailit;
 
 
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class CORSFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        if (MailthisApplication.runEnum.equals(RunEnum.PRODUCTION)) {
+        if (MailItApplication.runEnum.equals(RunEnum.PRODUCTION)) {
             if (request.getMethod().equals("GET")) {
                 response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
             } else if (request.getMethod().equals("POST") || request.getMethod().equals("OPTIONS")) {
@@ -57,7 +57,7 @@ public class CORSFilter implements Filter {
                 if (origin == null) {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }
-                if (MailthisApplication.environment.ACCESS_CONTROL_ALLOW_ORIGIN_URL.contains(origin)) {
+                if (MailItApplication.environment.ACCESS_CONTROL_ALLOW_ORIGIN_URL.contains(origin)) {
                     response.setHeader("Access-Control-Allow-Origin", origin);
                 } else {
                     // Not used? -> a CORS policy error is throw

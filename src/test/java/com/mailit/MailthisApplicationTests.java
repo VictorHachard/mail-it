@@ -1,14 +1,11 @@
-package com.mailthis;
+package com.mailit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.mailthis.controller.HtmlEmailController;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MailthisApplicationTests {
+class MailItApplicationTests {
 
 //    @Autowired
 //    private HtmlEmailController htmlEmailController;
