@@ -1,0 +1,42 @@
+name: actions-build-mail-it
+
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ '11' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.node-version }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'adopt'
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Compile
+        run: |
+          mvn compile
+      - name: Build Package
+        run: |
+          mvn clean package
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: deploy_dist
+          path: target/*.jar
