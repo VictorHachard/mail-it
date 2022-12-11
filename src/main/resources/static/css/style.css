@@ -1,0 +1,20 @@
+.mailit_msg .msg_footer .msg_footer_info {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.mailit_msg .msg_footer .msg_footer_info .msg_footer_line {
+  margin: 20px auto 10px 0;
+  width: 33%;
+}
+
+.mailit_msg .msg_footer .msg_footer_info .sent_with {
+  margin-top: 2px;
+}
+
+.mailit_msg .msg_footer .msg_footer_info li {
+  padding: 0.25rem 0.5rem 0.25rem 0;
+}
