@@ -36,6 +36,8 @@ public class MailItApplication {
      * @param args String[]
      */
     public static void main(String[] args) throws IOException, ParseException {
+        log.info("mail-it v1.0");
+
         runEnum = RunEnum.PRODUCTION;
         List<String> required_args = new ArrayList<>(Arrays.asList(
                 "-file"

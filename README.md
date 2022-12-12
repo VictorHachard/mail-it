@@ -22,6 +22,49 @@ The alias system allows sending emails using aliases instead of actual email add
 </form>
 ```
 
+## Installation
+
+### Setup for production
+
+Install Java JDK 11:
+
+```bash
+sudo apt install default-jdk -y
+```
+
+Create the `/opt/mail-it/` folder to place the Jar file:
+
+```bash
+sudo mkdir /opt/mail-it
+```
+
+Download the latest of mail-it:
+
+```bash
+wget https://github.com/VictorHachard/mail-it/releases/latest/download/mail-it.jar
+```
+
+Create the `setting.conf` file in the `/opt/mail-it/` directory:
+
+```bash
+sudo echo '{
+    "access_control_allow_origin_url": [
+      "https://example.com"
+    ],
+    "email_username": "gmail_sender@gmail.com",
+    "email_password": "aaaa bbbb cccc dddd",
+    "alias": {
+        "you_email": "you_email@example.com"
+    }
+}' > /opt/mail-it/setting.conf
+```
+
+Run the mail-it:
+
+```bash
+java -jar /opt/mail-it/mail-it.jar -file /opt/mail-it/setting.conf
+```
+
 ## Contribution
 
 If you would like to contribute to this project, there are several ways you can help. Some ideas include:
