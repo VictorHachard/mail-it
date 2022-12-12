@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mailit</groupId>
-    <artifactId>mailit</artifactId>
+    <artifactId>mail-it</artifactId>
     <version>1.0</version>
     <name>mail-it</name>
     <description>mail-it</description>
