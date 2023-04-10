@@ -1,3 +1,6 @@
+[![Alpha](https://raster.shields.io/badge/maturity-Alpha-red.png)]()
+[![GNU GPL 3.0](https://img.shields.io/badge/license-GNU_GPL_3.0-blue)](https://github.com/VictorHachard/mail-it/blob/main/LICENSE)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2f86fd10ba9e41a39e4c268e7f0b65e7)](https://www.codacy.com/gh/VictorHachard/mail-it/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=VictorHachard/mail-it&amp;utm_campaign=Badge_Grade)
 [![actions-build-mail-it](https://github.com/VictorHachard/mail-it/actions/workflows/actions-build-mail-it.yml/badge.svg)](https://github.com/VictorHachard/mail-it/actions/workflows/actions-build-mail-it.yml)
 
 # mail-it
@@ -64,6 +67,10 @@ Run the mail-it:
 ```bash
 java -jar /opt/mail-it/mail-it.jar -file /opt/mail-it/setting.conf
 ```
+
+#### Options
+
+   - Port: `-port <port_number>`
 
 ## Contribution
 

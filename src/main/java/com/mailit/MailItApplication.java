@@ -47,6 +47,8 @@ public class MailItApplication {
                 runEnum = RunEnum.DEVELOPMENT;
             } else if (args[i].equals("-file") && args[i + 1] != null) {
                 environment = new Environment(args[i + 1]);
+            } else if (args[i].equals("-port") && args[i + 1] != null) {
+                System.setProperty("server.port", args[i + 1]);
             }
             required_args.remove(args[i]);
         }

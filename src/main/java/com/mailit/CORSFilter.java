@@ -27,7 +27,7 @@ public class CORSFilter implements Filter {
     /**
      * Handles an incoming HTTP request by setting response headers for Cross-Origin Resource Sharing (CORS).
      *
-     * The doFilter method in this example first checks the run mode of the application (production or development)
+     * The doFilter method first checks the run mode of the application (production or development)
      * and the request method (GET, POST, or OPTIONS) to determine the appropriate response headers to set.
      * If the run mode is production, it checks the origin of the request against a whitelist of allowed domains,
      * and sets the Access-Control-Allow-Origin header accordingly.
@@ -56,12 +56,14 @@ public class CORSFilter implements Filter {
                 String origin = request.getHeader("Origin");
                 if (origin == null) {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                }
-                if (MailItApplication.environment.ACCESS_CONTROL_ALLOW_ORIGIN_URL.contains(origin)) {
+                    return;
+                } else if (MailItApplication.environment.ACCESS_CONTROL_ALLOW_ORIGIN_URL.contains(origin)) {
                     response.setHeader("Access-Control-Allow-Origin", origin);
+                    return;
                 } else {
                     // Not used? -> a CORS policy error is throw
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    return;
                 }
             }
         } else {
@@ -70,7 +72,7 @@ public class CORSFilter implements Filter {
 
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
 
         chain.doFilter(req, res);
     }
