@@ -107,7 +107,10 @@ public class HtmlEmailController {
         checkEmail(emailMap, validator);
 
         // Values
-        String fromPersonal = validator.getFromName() != null ? validator.getFromName() : "mail-it";
+        String fromPersonal = validator.getFromApplication() != null ? "[" + validator.getFromApplication() + "]" : "[mail-it]";
+        if (validator.getFromName() != null) {
+            fromPersonal += validator.getFromName();
+        }
         String subject = validator.getSubject() != null ? validator.getSubject() : "No Subject";
         String htmlMessage = validator.getMessage();
         if (validator.getFromName() != null) {
