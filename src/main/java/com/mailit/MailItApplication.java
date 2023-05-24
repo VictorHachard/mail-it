@@ -6,10 +6,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 @SpringBootApplication
 public class MailItApplication {
@@ -31,12 +35,32 @@ public class MailItApplication {
      */
     public static Environment environment;
 
+    private static void logVersion() {
+        try {
+            String pomContent = new String(Files.readAllBytes(new File("pom.xml").toPath()));
+
+            String versionStartTag = "<version>";
+            String versionEndTag = "</version>";
+
+            int startIndex = pomContent.indexOf("<artifactId>mail-it</artifactId>");
+            if (startIndex != -1) {
+                startIndex = pomContent.indexOf(versionStartTag, startIndex) + versionStartTag.length();
+                int endIndex = pomContent.indexOf(versionEndTag, startIndex);
+                String version = pomContent.substring(startIndex, endIndex);
+
+                log.info("mail-it version: " + version);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * args need to be like -run dev -file <path_to_config>
      * @param args String[]
      */
     public static void main(String[] args) throws IOException, ParseException {
-        log.info("mail-it v1.0");
+        logVersion();
 
         runEnum = RunEnum.PRODUCTION;
         List<String> required_args = new ArrayList<>(Arrays.asList(

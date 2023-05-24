@@ -49,25 +49,31 @@ public class CORSFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
+        log.info("Request received from " + request.getRemoteAddr() + " for URI: " + request.getRequestURI());
+
         if (MailItApplication.runEnum.equals(RunEnum.PRODUCTION)) {
             if (request.getMethod().equals("GET")) {
                 response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+                log.info("Access-Control-Allow-Origin set for GET request: " + request.getHeader("Origin"));
             } else if (request.getMethod().equals("POST") || request.getMethod().equals("OPTIONS")) {
                 String origin = request.getHeader("Origin");
                 if (origin == null) {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    log.error("Origin header not found in request");
                     return;
                 } else if (MailItApplication.environment.ACCESS_CONTROL_ALLOW_ORIGIN_URL.contains(origin)) {
                     response.setHeader("Access-Control-Allow-Origin", origin);
-                    return;
+                    log.info("Access-Control-Allow-Origin set for " + request.getMethod() + " request: " + origin);
                 } else {
                     // Not used? -> a CORS policy error is throw
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    log.error("Access denied for " + request.getMethod() + " request from origin: " + origin);
                     return;
                 }
             }
         } else {
             response.setHeader("Access-Control-Allow-Origin", "*");
+            log.info("Access-Control-Allow-Origin set to * (wildcard)");
         }
 
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");

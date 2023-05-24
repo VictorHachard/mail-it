@@ -44,7 +44,13 @@ sudo mkdir /opt/mail-it
 Download the latest of mail-it:
 
 ```bash
-wget https://github.com/VictorHachard/mail-it/releases/latest/download/mail-it.jar
+sudo wget https://github.com/VictorHachard/mail-it/releases/latest/download/mail-it.jar
+```
+
+Allow executing file as program:
+
+```bash
+sudo chmox +x mail-it.jar
 ```
 
 Create the `setting.conf` file in the `/opt/mail-it/` directory:
