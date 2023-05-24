@@ -129,6 +129,9 @@ public class HtmlEmailController {
             if (request.getHeader(HttpHeaders.ORIGIN) != null) {
                 footer += "<li><span>domain: </span><em>" + request.getHeader(HttpHeaders.ORIGIN) + "</em></li>";
             }
+            if (request.getHeader(HttpHeaders.USER_AGENT) != null) {
+                footer += "<li><span>user agent: </span><em>" + request.getHeader(HttpHeaders.USER_AGENT) + "</em></li>";
+            }
             footer += "</ul><p class='sent_with'>Sent with &#10084;</p></div>";
         }
         Map<String, ByteArrayDataSource> fileMap = new HashMap<>();
