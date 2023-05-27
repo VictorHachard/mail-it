@@ -34,7 +34,7 @@ public class MainController {
     private String file_name;
 
     @GetMapping("/")
-    public String index() {
+    public ResponseEntity<String> index() {
         String style = "<style>" +
                 "html {" +
                     "background-color: #181a1b !important;" +
@@ -50,7 +50,9 @@ public class MainController {
                     "justify-content: center;" +
                 "}" +
                 "</style>";
-        return style + "<div class='center'><h1>mail-it</h1></div>";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+        return new ResponseEntity<>(style + "<div class='center'><h1>mail-it</h1></div>", headers, HttpStatus.OK);
     }
 
     @GetMapping("/logs")

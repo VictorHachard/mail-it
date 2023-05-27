@@ -55,6 +55,9 @@ public class CORSFilter implements Filter {
             if (request.getMethod().equals("GET")) {
                 response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
                 log.info("Access-Control-Allow-Origin set for GET request: " + request.getHeader("Origin"));
+            } else if (request.getMethod().equals("POST") && request.getRequestURI().equals("/logs")) {
+                response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+                log.info("Access-Control-Allow-Origin set for POST request: " + request.getHeader("Origin"));
             } else if (request.getMethod().equals("POST") || request.getMethod().equals("OPTIONS")) {
                 String origin = request.getHeader("Origin");
                 if (origin == null) {
