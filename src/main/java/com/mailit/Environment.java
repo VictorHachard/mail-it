@@ -21,6 +21,16 @@ public class Environment {
     public final List<String> ACCESS_CONTROL_ALLOW_ORIGIN_URL;
 
     /**
+     * This variable enable the simplified user agent string that is used to identify the client or browser.
+     */
+    public final Boolean USER_AGENT_SIMPLIFIED;
+
+    /**
+     * This variable is a string that represents the password used to access /logs.
+     */
+    public final String LOGS_PASSWORD;
+
+    /**
      * This variable is a string that represents the email account that will be used to send the email message.
      */
     public final String EMAIL_USERNAME;
@@ -58,8 +68,10 @@ public class Environment {
         result = result.replace("\n", "");
 
         ACCESS_CONTROL_ALLOW_ORIGIN_URL = access_control_allow_origin_url;
+        USER_AGENT_SIMPLIFIED = jo.get("user_agent_simplified") == null || (Boolean) jo.get("user_agent_simplified");
         EMAIL_USERNAME = (String) jo.get("email_username");
         EMAIL_PASSWORD = (String) jo.get("email_password");
+        LOGS_PASSWORD = jo.get("user_agent_simplified") != null ? (String) jo.get("logs_password") : "admin";
         ALIAS = alias;
         STYLE_CSS = result;
     }

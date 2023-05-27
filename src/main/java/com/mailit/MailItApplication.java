@@ -73,6 +73,8 @@ public class MailItApplication {
                 environment = new Environment(args[i + 1]);
             } else if (args[i].equals("-port") && args[i + 1] != null) {
                 System.setProperty("server.port", args[i + 1]);
+            } else if (args[i].equals("-log") && args[i + 1] != null) {
+                System.setProperty("logging.file.name", args[i + 1]);
             }
             required_args.remove(args[i]);
         }

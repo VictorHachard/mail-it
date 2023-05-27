@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class HtmlEmailController {
@@ -33,6 +35,38 @@ public class HtmlEmailController {
 
     @Autowired
     private JavaMailSender emailSender;
+
+    private Map<String, String> analyzeUserAgent(String userAgent) {
+        Map<String, String> userInfo = new LinkedHashMap<>();
+
+        // Extract browser information
+        Pattern browserPattern = Pattern.compile(".*?(Chrome|Firefox|Safari).*?/(\\d+\\.\\d+).*");
+        Matcher browserMatcher = browserPattern.matcher(userAgent);
+        if (browserMatcher.matches()) {
+            String browserName = browserMatcher.group(1);
+            String browserVersion = browserMatcher.group(2);
+            userInfo.put("browser", browserName);
+            userInfo.put("version", browserVersion);
+        }
+
+        // Extract operating system information
+        Pattern osPattern = Pattern.compile(".*?\\((.*?)\\).*");
+        Matcher osMatcher = osPattern.matcher(userAgent);
+        if (osMatcher.matches()) {
+            String osInfo = osMatcher.group(1);
+            userInfo.put("operating system", osInfo);
+        }
+
+        // Extract device information
+        Pattern devicePattern = Pattern.compile(".*?\\((.*?)\\).*");
+        Matcher deviceMatcher = devicePattern.matcher(userAgent);
+        if (deviceMatcher.matches()) {
+            String deviceInfo = deviceMatcher.group(1);
+            userInfo.put("device", deviceInfo);
+        }
+
+        return userInfo;
+    }
 
     private static boolean isValidEmailAddress(String email) {
         boolean result = true;
@@ -109,13 +143,10 @@ public class HtmlEmailController {
         // Values
         String fromPersonal = validator.getFromApplication() != null ? "[" + validator.getFromApplication() + "]" : "[mail-it]";
         if (validator.getFromName() != null) {
-            fromPersonal += validator.getFromName();
+            fromPersonal += " " + validator.getFromName();
         }
         String subject = validator.getSubject() != null ? validator.getSubject() : "No Subject";
         String htmlMessage = validator.getMessage();
-        if (validator.getFromName() != null) {
-            htmlMessage = validator.getFromName() + "\n\n" + htmlMessage;
-        }
         if (validator.getReplaceMessageBreak()) {
             htmlMessage = htmlMessage.replace("\n", "<br>");
         }
@@ -133,7 +164,18 @@ public class HtmlEmailController {
                 footer += "<li><span>domain: </span><em>" + request.getHeader(HttpHeaders.ORIGIN) + "</em></li>";
             }
             if (request.getHeader(HttpHeaders.USER_AGENT) != null) {
-                footer += "<li><span>user agent: </span><em>" + request.getHeader(HttpHeaders.USER_AGENT) + "</em></li>";
+                if (MailItApplication.environment.USER_AGENT_SIMPLIFIED) {
+                    StringBuilder userInfo = new StringBuilder();
+                    Map<String, String> analysedUserInfo = this.analyzeUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+                    for (Map.Entry<String, String> entry : analysedUserInfo.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        userInfo.append("<li><span>").append(key).append(": </span><em>").append(value).append("</em></li>");
+                    }
+                    footer += userInfo;
+                } else {
+                    footer += "<li><span>user agent: </span><em>" + request.getHeader(HttpHeaders.USER_AGENT) + "</em></li>";
+                }
             }
             footer += "</ul><p class='sent_with'>Sent with &#10084;</p></div>";
         }
