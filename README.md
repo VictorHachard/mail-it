@@ -25,6 +25,8 @@ The alias system allows sending emails using aliases instead of actual email add
 </form>
 ```
 
+The [wiki](https://github.com/VictorHachard/mail-it/wiki/Angular-implementation) contains additional code examples.
+
 ## Installation
 
 ### Setup for production
@@ -68,6 +70,8 @@ sudo echo '{
 }' > /opt/mail-it/setting.conf
 ```
 
+More server configuration options can be found in the [wiki](https://github.com/VictorHachard/mail-it/wiki/Server-Configuration-Options).
+
 Run the mail-it:
 
 ```bash
@@ -77,6 +81,9 @@ java -jar /opt/mail-it/mail-it.jar -file /opt/mail-it/setting.conf
 #### Options
 
    - Port: `-port <port_number>`
+
+
+The wiki provides detailed instructions on advanced installations, such as [service setup](https://github.com/VictorHachard/mail-it/wiki/Running-as-a-linux-service) and [reverse proxy setup](https://github.com/VictorHachard/mail-it/wiki/Reverse-proxy-setup).
 
 ## Contribution
 
@@ -88,3 +95,6 @@ If you would like to contribute to this project, there are several ways you can 
 -   Sharing the project with others and spreading the word
 
 Any contribution, no matter how small, is valuable and appreciated. If you have any questions or need help getting started, don't hesitate to create a new issue on the project's repository and ask for help. Thank you for considering contributing to this project!
+
+
+For instructions on setting up a development environment, please refer to the [wiki](https://github.com/VictorHachard/mail-it/wiki/Setup-for-development).

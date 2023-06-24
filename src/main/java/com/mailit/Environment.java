@@ -71,7 +71,7 @@ public class Environment {
         USER_AGENT_SIMPLIFIED = jo.get("user_agent_simplified") == null || (Boolean) jo.get("user_agent_simplified");
         EMAIL_USERNAME = (String) jo.get("email_username");
         EMAIL_PASSWORD = (String) jo.get("email_password");
-        LOGS_PASSWORD = jo.get("user_agent_simplified") != null ? (String) jo.get("logs_password") : "admin";
+        LOGS_PASSWORD = jo.get("logs_password") != null ? (String) jo.get("logs_password") : "admin";
         ALIAS = alias;
         STYLE_CSS = result;
     }
