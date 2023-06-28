@@ -80,7 +80,8 @@ java -jar /opt/mail-it/mail-it.jar -file /opt/mail-it/setting.conf
 
 #### Options
 
-   - Port: `-port <port_number>`
+-   Port: `-port <port_number>`
+-   Port: `-log <path>`
 
 
 The wiki provides detailed instructions on advanced installations, such as [service setup](https://github.com/VictorHachard/mail-it/wiki/Running-as-a-linux-service) and [reverse proxy setup](https://github.com/VictorHachard/mail-it/wiki/Reverse-proxy-setup).

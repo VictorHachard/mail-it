@@ -1,6 +1,7 @@
 package com.mailit.controller;
 
 import com.mailit.MailItApplication;
+import com.mailit.model.ValidatorError;
 import com.mailit.validator.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,22 +82,21 @@ public class HtmlEmailController {
 
     private void checkRequired(EmailValidator validator) {
         if (validator.getReplyTo() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "replyTo is required");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ValidatorError.REPLY_TO_REQUIRED.getErrorMessage());
         }
         if (validator.getMessage() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "message is required");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ValidatorError.MESSAGE_REQUIRED.getErrorMessage());
         }
     }
 
     private void checkEmail(Map<String, String> emailMap, EmailValidator validator) {
         for (String email : emailMap.values()) {
             if (!isValidEmailAddress(email)) {
-                String msg = emailMap.size() > 1 ? "Destination emails are not valid" : "Destination email is not valid";
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, msg);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ValidatorError.INVALID_DESTINATION_EMAIL.getErrorMessage());
             }
         }
         if (!isValidEmailAddress(validator.getReplyTo())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reply to email is not valid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ValidatorError.INVALID_REPLY_TO_EMAIL.getErrorMessage());
         }
     }
 
@@ -204,11 +204,8 @@ public class HtmlEmailController {
             helper.setTo(to.getValue());
             helper.setSubject(subject);
             helper.setReplyTo(validator.getReplyTo());
-            if (fromPersonal.isEmpty()) {
-                helper.setFrom("noreply@victorhachard.fr");
-            } else {
-                helper.setFrom("noreply@victorhachard.fr", fromPersonal);
-            }
+
+            helper.setFrom("noreply@victorhachard.fr", fromPersonal);
 
             this.emailSender.send(message);
             res.add("'" + to.getKey() + "'");  // Hack to have quote in the jsonRes
