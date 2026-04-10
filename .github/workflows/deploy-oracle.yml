@@ -18,8 +18,6 @@ jobs:
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
       DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
       IMAGE_TAG: ${{ github.event.inputs.tag }}
-      GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
-      GITHUB_ACTOR: ${{ github.actor }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,11 +39,9 @@ jobs:
           username: ${{ env.DEPLOY_USER }}
           key: ${{ env.DEPLOY_SSH_KEY }}
           port: ${{ env.DEPLOY_PORT }}
-          envs: IMAGE_TAG,GHCR_TOKEN,GITHUB_ACTOR
+          envs: IMAGE_TAG
           script: |
-            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
             cd ${{ env.DEPLOY_DIR }}
             IMAGE_TAG=$IMAGE_TAG docker compose pull
             IMAGE_TAG=$IMAGE_TAG docker compose up -d
             docker image prune -f
-            docker logout ghcr.io
