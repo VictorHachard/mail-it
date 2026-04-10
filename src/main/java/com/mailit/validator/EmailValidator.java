@@ -64,4 +64,10 @@ public class EmailValidator implements Serializable {
      */
     MultipartFile[] files;
 
+    /**
+     * Honeypot field — must remain empty. Bots typically fill all fields automatically.
+     * If non-empty, the request is silently accepted but discarded server-side.
+     */
+    String _hp;
+
 }

@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Map;
 
 @SpringBootApplication
 public class MailItApplication {
@@ -42,6 +45,19 @@ public class MailItApplication {
 
         if (runEnum == RunEnum.PRODUCTION && environment.ACCESS_CONTROL_ALLOW_ORIGIN_URL.isEmpty()) {
             throw new IllegalArgumentException("In production the CORS_ALLOWED_ORIGINS env var cannot be empty");
+        }
+        if (environment.EMAIL_USERNAME == null || environment.EMAIL_USERNAME.isBlank()) {
+            throw new IllegalArgumentException("EMAIL_USERNAME env var is required");
+        }
+        if (environment.EMAIL_PASSWORD == null || environment.EMAIL_PASSWORD.isBlank()) {
+            throw new IllegalArgumentException("EMAIL_PASSWORD env var is required");
+        }
+        for (Map.Entry<String, String> alias : environment.ALIAS.entrySet()) {
+            try {
+                new InternetAddress(alias.getValue()).validate();
+            } catch (AddressException e) {
+                throw new IllegalArgumentException("Invalid email in ALIAS for key '" + alias.getKey() + "': " + alias.getValue());
+            }
         }
 
         log.info("Starting in " + runEnum.name() + " mode");

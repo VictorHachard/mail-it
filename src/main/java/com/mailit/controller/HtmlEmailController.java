@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.LinkedHashMap;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
+import org.springframework.mail.MailAuthenticationException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -121,13 +125,18 @@ public class HtmlEmailController {
      */
     @ResponseBody
     @PostMapping("/{email}")
-    public String sendSimpleMessage(@ModelAttribute EmailValidator validator,
+    public ResponseEntity<Map<String, Object>> sendSimpleMessage(@ModelAttribute EmailValidator validator,
                                     @PathVariable("email") String emailTo,
                                     HttpServletRequest request)
             throws MessagingException, IOException {
         emailTo = emailTo.replaceAll("\\s+","");
 
         log.info("Request received " + emailTo);
+
+        if (validator.get_hp() != null && !validator.get_hp().isEmpty()) {
+            log.warn("Honeypot triggered from {}", request.getRemoteAddr());
+            return ResponseEntity.ok(Map.of("result", "success"));
+        }
 
         // Required
         checkRequired(validator);
@@ -205,17 +214,25 @@ public class HtmlEmailController {
             helper.setSubject(subject);
             helper.setReplyTo(validator.getReplyTo());
 
-            helper.setFrom("noreply@victorhachard.fr", fromPersonal);
+            helper.setFrom(MailItApplication.environment.EMAIL_FROM, fromPersonal);
 
-            this.emailSender.send(message);
-            res.add("'" + to.getKey() + "'");  // Hack to have quote in the jsonRes
+            try {
+                this.emailSender.send(message);
+            } catch (MailAuthenticationException e) {
+                log.error("SMTP authentication failed", e);
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ValidatorError.SMTP_AUTH_FAILED.getErrorMessage());
+            } catch (Exception e) {
+                log.error("Failed to send email to {}", to.getValue(), e);
+                throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, ValidatorError.SMTP_SEND_FAILED.getErrorMessage());
+            }
+            res.add(to.getKey());
         }
-        String jsonRes = "{\"result\": \"success\"," +
-                "\"email_to_send_count\": " + emailMap.size() + "," +
-                "\"email_sent_count\": " + res.size() + "," +
-                "\"email_sent\": " + res.toString().replace("'", "\"") +
-                "}";
-        return jsonRes;
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("result", "success");
+        body.put("email_to_send_count", emailMap.size());
+        body.put("email_sent_count", res.size());
+        body.put("email_sent", res);
+        return ResponseEntity.ok(body);
     }
 
 }

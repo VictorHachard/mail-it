@@ -12,6 +12,7 @@ public class Environment {
     public final Boolean USER_AGENT_SIMPLIFIED;
     public final String EMAIL_USERNAME;
     public final String EMAIL_PASSWORD;
+    public final String EMAIL_FROM;
     public final Map<String, String> ALIAS;
     public final String STYLE_CSS;
 
@@ -26,6 +27,8 @@ public class Environment {
 
         EMAIL_USERNAME = System.getenv("EMAIL_USERNAME");
         EMAIL_PASSWORD = System.getenv("EMAIL_PASSWORD");
+        String emailFrom = System.getenv("EMAIL_FROM");
+        EMAIL_FROM = (emailFrom != null && !emailFrom.isBlank()) ? emailFrom : EMAIL_USERNAME;
 
         Map<String, String> alias = new HashMap<>();
         String aliasEnv = System.getenv("ALIAS");
