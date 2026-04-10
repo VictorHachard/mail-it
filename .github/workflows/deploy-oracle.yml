@@ -29,7 +29,7 @@ jobs:
           username: ${{ env.DEPLOY_USER }}
           key: ${{ env.DEPLOY_SSH_KEY }}
           port: ${{ env.DEPLOY_PORT }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yml,nginx.conf"
           target: ${{ env.DEPLOY_DIR }}
 
       - name: Pull image and restart on server
