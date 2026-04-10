@@ -1,0 +1,29 @@
+services:
+  mail-it:
+    image: ghcr.io/GITHUB_USERNAME/mail-it:${IMAGE_TAG:-latest}
+    build: .
+    ports:
+      - "5686:5686"
+    env_file: .env
+    restart: unless-stopped
+
+  mail-it-dev:
+    build:
+      context: .
+      target: build
+    profiles: ["dev"]
+    ports:
+      - "5686:5686"
+    volumes:
+      - .:/workspace
+      - m2_cache:/root/.m2
+    working_dir: /workspace
+    env_file: .env
+    command:
+      - mvn
+      - "spring-boot:run"
+      - "-Dspring-boot.run.jvmArguments=-Dspring.devtools.restart.enabled=true"
+    restart: "no"
+
+volumes:
+  m2_cache:

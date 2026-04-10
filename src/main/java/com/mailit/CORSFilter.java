@@ -2,14 +2,14 @@ package com.mailit;
 
 
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -55,9 +55,6 @@ public class CORSFilter implements Filter {
             if (request.getMethod().equals("GET")) {
                 response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
                 log.info("Access-Control-Allow-Origin set for GET request: " + request.getHeader("Origin"));
-            } else if (request.getMethod().equals("POST") && request.getRequestURI().equals("/logs")) {
-                response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-                log.info("Access-Control-Allow-Origin set for POST request: " + request.getHeader("Origin"));
             } else if (request.getMethod().equals("POST") || request.getMethod().equals("OPTIONS")) {
                 String origin = request.getHeader("Origin");
                 if (origin == null) {
