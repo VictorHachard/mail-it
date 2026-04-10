@@ -1,6 +1,6 @@
 services:
   mail-it:
-    image: ghcr.io/GITHUB_USERNAME/mail-it:${IMAGE_TAG:-latest}
+    image: ghcr.io/victorhachard/mail-it:${IMAGE_TAG:-latest}
     build: .
     ports:
       - "5686:5686"
